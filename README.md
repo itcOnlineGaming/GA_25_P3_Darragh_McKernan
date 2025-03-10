@@ -12,7 +12,7 @@
 ### The saved gameobjects are stored in the package and can be loaded at will when they are needed.
 ### This is especially useful when a player is able to build something as it can be saved as stored so they can reuse the built object later on.
 
-## Setting up the package
+# Setting up the package
 ## Saving an Object
 ### Attach the package script (put link here) to a gameoject in your scene (preferably a GameManager).
 ### Attach the gameobject containing the package script to a button so that the user can save the gameobject that you want.
