@@ -3,7 +3,7 @@
 ## Set up the component
 ### You need to add the component to your project using the Package Manager. Open the Package Manager (Windows > Package Manager), click on the + icon and select “Add package from git URL...” and enter:
 
-### https://github.com/itcOnlineGaming/Deck_Manager.git?path=/Packages/ie.mypackage.deckmanager#v1.0.1
+### https://github.com/itcOnlineGaming/GA_25_P3_Darragh_McKernan
 
 ### Note that the URL specifies the complete path to the package and a git tag. The package should now be visible in your project.
 
