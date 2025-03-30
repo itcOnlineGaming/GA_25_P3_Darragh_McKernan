@@ -89,6 +89,11 @@ public class PrefabCreatorAndLoader : MonoBehaviour
 
     private void SavePrefab(GameObject obj, string prefabFileName)
     {
+        if (obj.GetComponent<DataTracker>() == null)
+        {
+            obj.AddComponent<DataTracker>();
+        }
+
         if (!Directory.Exists(savePath))
         {
             Directory.CreateDirectory(savePath);
