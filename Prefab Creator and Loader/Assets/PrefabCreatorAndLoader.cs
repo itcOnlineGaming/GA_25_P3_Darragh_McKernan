@@ -94,4 +94,28 @@ public class PrefabCreatorAndLoader : MonoBehaviour
         PrefabUtility.SaveAsPrefabAsset(obj, fullPath);
         Debug.Log("Prefab saved at: " + fullPath);
     }
+
+    public void LoadSavedPrefab()
+    {
+        string prefabName = prefabLoadInput.text.Trim();
+
+        if (string.IsNullOrEmpty(prefabName))
+        {
+            Debug.LogWarning("Please enter a prefab name to load.");
+            return;
+        }
+
+        string fullPath = Path.Combine(savePath, prefabName + ".prefab");
+        GameObject loadedPrefab = AssetDatabase.LoadAssetAtPath<GameObject>(fullPath);
+
+        if (loadedPrefab != null)
+        {
+            Instantiate(loadedPrefab, Vector3.zero, Quaternion.identity);
+            Debug.Log("Prefab loaded and instantiated: " + prefabName);
+        }
+        else
+        {
+            Debug.LogWarning("Prefab not found: " + fullPath);
+        }
+    }
 }
