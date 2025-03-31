@@ -32,18 +32,23 @@ public class PrefabCreatorAndLoader : MonoBehaviour
 
     public void AttemptToSavePrefab()
     {
-        string searchName = prefabSearchInput.text.Trim();
+        string foundSearchName;
+        if (prefabSearchInput == null)
+        {
+            foundSearchName = searchName;
+        }
+        else foundSearchName = prefabSearchInput.text.Trim();
 
 
-        if (string.IsNullOrEmpty(searchName))
+        if (string.IsNullOrEmpty(foundSearchName))
         {
             Debug.LogWarning("Search field is empty! Enter a name or tag.");
             return;
         }
 
-        if (SavePrefabByName(searchName) == false)
+        if (SavePrefabByName(foundSearchName) == false)
         {
-            SavePrefabsByTag(searchName);
+            SavePrefabsByTag(foundSearchName);
         }
 
         UpdatePrefabDropdown();
