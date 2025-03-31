@@ -1,6 +1,6 @@
 {
     "name": "ie.mypackage.prefabcreatorandloader",
-    "version": "1.0.1",
+    "version": "1.0.2",
     "displayName": "Prefab Creator and Loader",
     "description": "A package that can save and load objects in game as prefabs.",
     "unity": "2022.3",
