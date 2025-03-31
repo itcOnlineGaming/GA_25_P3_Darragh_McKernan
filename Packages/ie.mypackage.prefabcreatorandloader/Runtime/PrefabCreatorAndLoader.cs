@@ -1,138 +1,68 @@
 using System.Collections;
 using System.Collections.Generic;
-using System.IO;
-using TMPro;
-using UnityEditor;
 using UnityEngine;
+using TMPro;
 
 public class PrefabCreatorAndLoader : MonoBehaviour
 {
-    // Start is called before the first frame update
+    public PrefabDatabase prefabDatabase;
+    public TMP_InputField prefabSearchInput;
+    public TMP_InputField prefabNameInput;
+    public TMP_InputField prefabLoadInput;
+    public TMP_Dropdown loadPrefabUI;
+
+    private List<GameObject> generatedPrefabs = new List<GameObject>();
+    Vector3 spawnPoint = new Vector3(4, 5, 0);
+
     void Start()
     {
         UpdatePrefabDropdown();
     }
 
-    // Update is called once per frame
-    void Update()
-    {
-        
-    }
-
-    public string searchName;
-    public string prefabName;
-    private string savePath = "Assets/SavedPrefabs";
-    public TMP_InputField prefabSearchInput;
-    public TMP_InputField prefabNameInput;
-    public TMP_InputField prefabLoadInput;
-    public TMP_Dropdown loadPrefabUI;
-    private List<string> prefabNames = new List<string>();
-    private List<GameObject> generatedPrefabs = new List<GameObject>();
-    Vector3 spawnPoint = new Vector3(4, 5, 0);
-
     public void AttemptToSavePrefab()
     {
-        string foundSearchName;
-        if (prefabSearchInput == null)
-        {
-            foundSearchName = searchName;
-        }
-        else foundSearchName = prefabSearchInput.text.Trim();
-
+        string foundSearchName = prefabSearchInput?.text.Trim() ?? "";
 
         if (string.IsNullOrEmpty(foundSearchName))
         {
-            Debug.LogWarning("Search field is empty! Enter a name or tag.");
             return;
         }
 
-        if (SavePrefabByName(foundSearchName) == false)
-        {
-            SavePrefabsByTag(foundSearchName);
-        }
-
+        SavePrefabByName(foundSearchName);
         UpdatePrefabDropdown();
     }
 
-    public bool SavePrefabByName(string t_name)
+    public void SavePrefabByName(string t_name)
     {
         string saveName = prefabNameInput.text.Trim();
-
         GameObject foundObject = GameObject.Find(t_name);
+
         if (foundObject != null)
         {
             string finalPrefabName = string.IsNullOrEmpty(saveName) ? foundObject.name : saveName;
-            SavePrefab(foundObject, finalPrefabName);
-            return true;
-        }
-        else
-        {
-            Debug.LogWarning("GameObject with name '" + t_name + "' not found.");
-        }
-        return false;
-    }
 
-    public bool SavePrefabsByTag(string t_name)
-    {
-        string saveName = prefabNameInput.text.Trim();
-
-        GameObject[] foundObjects = GameObject.FindGameObjectsWithTag(t_name);
-        if (foundObjects.Length > 0)
-        {
-            foreach (GameObject obj in foundObjects)
+            if (!prefabDatabase.prefabs.Exists(p => p.name == finalPrefabName))
             {
-                string finalPrefabName = string.IsNullOrEmpty(saveName) ? obj.name : saveName + "_" + obj.name;
-                SavePrefab(obj, finalPrefabName);
+                GameObject prefabCopy = Instantiate(foundObject);
+                prefabCopy.name = finalPrefabName;
+                prefabDatabase.prefabs.Add(prefabCopy);
             }
         }
-        else
-        {
-            Debug.LogWarning("No GameObjects with tag '" + t_name + "' found.");
-        }
-        return false;
     }
-
-    private void SavePrefab(GameObject obj, string prefabFileName)
-    {
-        if (obj.GetComponent<DataTracker>() == null)
-        {
-            obj.AddComponent<DataTracker>();
-        }
-
-        if (!Directory.Exists(savePath))
-        {
-            Directory.CreateDirectory(savePath);
-            AssetDatabase.Refresh();
-        }
-
-        string fullPath = Path.Combine(savePath, prefabFileName + ".prefab");
-
-        PrefabUtility.SaveAsPrefabAsset(obj, fullPath);
-        Debug.Log("Prefab saved at: " + fullPath);
-    }
-
     public void LoadSavedPrefab()
     {
         string prefabName = prefabLoadInput.text.Trim();
 
         if (string.IsNullOrEmpty(prefabName))
         {
-            Debug.LogWarning("Please enter a prefab name to load.");
             return;
         }
 
-        string fullPath = Path.Combine(savePath, prefabName + ".prefab");
-        GameObject loadedPrefab = AssetDatabase.LoadAssetAtPath<GameObject>(fullPath);
-
-        if (loadedPrefab != null)
+        GameObject prefab = prefabDatabase.GetPrefab(prefabName);
+        if (prefab != null)
         {
-            generatedPrefabs.Add(Instantiate(loadedPrefab, spawnPoint, Quaternion.identity));
+            generatedPrefabs.Add(Instantiate(prefab, spawnPoint, Quaternion.identity));
             spawnPoint.y -= 2;
-            Debug.Log("Prefab loaded and instantiated: " + prefabName);
-        }
-        else
-        {
-            Debug.LogWarning("Prefab not found: " + fullPath);
         }
     }
 
@@ -140,48 +70,33 @@ public class PrefabCreatorAndLoader : MonoBehaviour
     {
         if (loadPrefabUI.options.Count == 0)
         {
-            Debug.LogWarning("No prefabs available to load.");
             return;
         }
 
-        string selectedPrefab = loadPrefabUI.options[loadPrefabUI.value].text;
+        string selectedPrefabName = loadPrefabUI.options[loadPrefabUI.value].text;
 
-        if (selectedPrefab == "No Prefabs Found")
+        if (selectedPrefabName == "No Prefabs Found")
         {
-            Debug.LogWarning("No valid prefab selected.");
             return;
         }
 
-        InstantiatePrefab(selectedPrefab);
-    }
+        GameObject prefabToLoad = prefabDatabase.GetPrefab(selectedPrefabName);
 
-    private void InstantiatePrefab(string prefabName)
-    {
-        string fullPath = Path.Combine(savePath, prefabName + ".prefab");
-        GameObject loadedPrefab = AssetDatabase.LoadAssetAtPath<GameObject>(fullPath);
-
-        if (loadedPrefab != null)
+        if (prefabToLoad != null)
         {
-            generatedPrefabs.Add(Instantiate(loadedPrefab, spawnPoint, Quaternion.identity));
+            generatedPrefabs.Add(Instantiate(prefabToLoad, spawnPoint, Quaternion.identity));
             spawnPoint.y -= 2;
-            Debug.Log("Prefab loaded and instantiated: " + prefabName);
-        }
-        else
-        {
-            Debug.LogWarning("Prefab not found: " + fullPath);
         }
     }
 
     public void UpdatePrefabDropdown()
     {
         loadPrefabUI.ClearOptions();
-        prefabNames.Clear();
+        List<string> prefabNames = new List<string>();
 
-        string[] prefabFiles = Directory.GetFiles(savePath, "*.prefab");
-        foreach (string filePath in prefabFiles)
+        foreach (GameObject prefab in prefabDatabase.prefabs)
         {
-            string prefabName = Path.GetFileNameWithoutExtension(filePath);
-            prefabNames.Add(prefabName);
+            prefabNames.Add(prefab.name);
         }
 
         if (prefabNames.Count > 0)
@@ -196,9 +111,9 @@ public class PrefabCreatorAndLoader : MonoBehaviour
 
     public void ClearPrefabs()
     {
-        for(int index = 0;index < generatedPrefabs.Count;index++)
+        foreach (var obj in generatedPrefabs)
         {
-            Destroy(generatedPrefabs[index]);
+            Destroy(obj);
         }
         generatedPrefabs.Clear();
         spawnPoint = new Vector3(4, 5, 0);
