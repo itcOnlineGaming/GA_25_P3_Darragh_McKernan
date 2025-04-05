@@ -21,5 +21,10 @@
 
 ## Loading a saved object
 ### You can also optionally add in a button to load in one of the previously saved objects, these will be stored as a list so you can easily access all of them.
-### The objects will persist through different runs of the game but there will be a function that can be called to either remove all of the objects
-### or to just remove a specified object.
+### The objects will not persist through different runs of the game but there will be a function that can be called to remove all of the objects.
+![image](https://github.com/user-attachments/assets/66119f52-cfd0-4b87-a800-8a31a7dbea51)
+### In the demo you can see that an object can be saved either by specifying the name of the object or the tag that is on the object.
+### You must use an input field in order to allow for saving annd it can use either a tag or name of object as the component will look for both in the scene.
+### When objects are saved they can be automatically applied to a drop down menu allowing users to easily access a large amount of saved objects at once.
+### You can provide a text box to allow users to name their own objects and these will be the names they use to load the object making it easy for your user.
+### You can allow users to load a specific object by name if you add in a text box and apply it to the fields in the script.
