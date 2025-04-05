@@ -14,10 +14,11 @@
 
 # Setting up the package
 ## Saving an Object
-### Attach the package script (put link here) to a gameoject in your scene (preferably a GameManager).
+### Attach the package script from [here](https://github.com/itcOnlineGaming/GA_25_P3_Darragh_McKernan.git?path=/Packages/ie.mypackage.prefabcreatorandloader#v1.0.5) to a gameoject in your scene (preferably a GameManager).
 ### Attach the gameobject containing the package script to a button so that the user can save the gameobject that you want.
 ### A UI element will also be included in the package that if the player types into it they can give their saved object a name.
 ### This can be useful if the player has saved a large amount of objects so that they can easily find it by name. 
+### Make sure that each button you add calls on the functions in thescript to save and load. You MUST provide inout boxes for the users to ber able to save objects.
 
 ## Loading a saved object
 ### You can also optionally add in a button to load in one of the previously saved objects, these will be stored as a list so you can easily access all of them.
