@@ -14,6 +14,11 @@ public class PrefabCreatorAndLoader : MonoBehaviour
     private List<GameObject> generatedPrefabs = new List<GameObject>();
     Vector3 spawnPoint = new Vector3(4, 5, 0);
 
+    private void Awake()
+    {
+        ClearPrefabs();
+    }
+
     void Start()
     {
         UpdatePrefabDropdown();
@@ -61,7 +66,7 @@ public class PrefabCreatorAndLoader : MonoBehaviour
         GameObject prefab = prefabDatabase.GetPrefab(prefabName);
         if (prefab != null)
         {
-            generatedPrefabs.Add(Instantiate(prefab, spawnPoint, Quaternion.identity));
+            generatedPrefabs.Add(Instantiate(prefab, spawnPoint, prefab.transform.rotation));
             spawnPoint.y -= 2;
         }
     }
@@ -84,7 +89,7 @@ public class PrefabCreatorAndLoader : MonoBehaviour
 
         if (prefabToLoad != null)
         {
-            generatedPrefabs.Add(Instantiate(prefabToLoad, spawnPoint, Quaternion.identity));
+            generatedPrefabs.Add(Instantiate(prefabToLoad, spawnPoint, prefabToLoad.transform.rotation));
             spawnPoint.y -= 2;
         }
     }
@@ -109,7 +114,7 @@ public class PrefabCreatorAndLoader : MonoBehaviour
         }
     }
 
-    public void ClearPrefabs()
+    public void ClearObjectsInScene()
     {
         foreach (var obj in generatedPrefabs)
         {
@@ -117,5 +122,20 @@ public class PrefabCreatorAndLoader : MonoBehaviour
         }
         generatedPrefabs.Clear();
         spawnPoint = new Vector3(4, 5, 0);
+    }
+
+    public void ClearPrefabs()
+    {
+        generatedPrefabs.Clear();
+
+        prefabDatabase.prefabs.Clear();
+
+        spawnPoint = new Vector3(4, 5, 0);
+
+        UpdatePrefabDropdown();
+
+        prefabSearchInput.text = "";
+        prefabNameInput.text = "";
+        prefabLoadInput.text = "";
     }
 }
