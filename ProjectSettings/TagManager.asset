@@ -5,6 +5,7 @@ TagManager:
   serializedVersion: 2
   tags:
   - PrefabToSave
+  - Tag
   layers:
   - Default
   - TransparentFX
