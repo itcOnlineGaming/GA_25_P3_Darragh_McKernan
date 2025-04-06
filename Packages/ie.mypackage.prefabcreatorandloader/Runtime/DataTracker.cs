@@ -9,7 +9,7 @@ public class DataTracker : MonoBehaviour
     void Start()
     {
         totalChildCount = CountAllChildren(transform);
-        Debug.Log(gameObject.name + " has " + totalChildCount  + " children");
+        //Debug.Log(gameObject.name + " has " + totalChildCount  + " children");
     }
 
     private int CountAllChildren(Transform parent)
