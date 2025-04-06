@@ -586,6 +586,7 @@ MonoBehaviour:
   prefabNameInput: {fileID: 774006411}
   prefabLoadInput: {fileID: 1428533967}
   loadPrefabUI: {fileID: 1593771163}
+  CustomSpawnsEnabled: 0
 --- !u!114 &1428533967 stripped
 MonoBehaviour:
   m_CorrespondingSourceObject: {fileID: 2633268171048365246, guid: a0eacd3a773c3e0469a53976ba9d20d1, type: 3}

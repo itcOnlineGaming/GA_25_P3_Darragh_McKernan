@@ -1,11 +1,11 @@
 {
-    "name": "ie.mypackage.prefabcreatorandloader",
-    "version": "1.0.4",
-    "displayName": "Prefab Creator and Loader",
-    "description": "A package that can save and load objects in game as prefabs.",
-    "unity": "2022.3",
-    "author": {
-      "name": "Darragh McKernan",
-      "email": "C00271651@setu.ie"
-    }
+  "name": "ie.mypackage.prefabcreatorandloader",
+  "version": "1.0.6",
+  "displayName": "Prefab Creator and Loader",
+  "description": "A package that can save and load objects in game as prefabs.",
+  "unity": "2022.3",
+  "author": {
+    "name": "Darragh McKernan",
+    "email": "C00271651@setu.ie"
   }
+}

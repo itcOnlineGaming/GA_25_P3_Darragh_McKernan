@@ -30,7 +30,9 @@ public class PrefabCreatorAndLoader : MonoBehaviour
     public TMP_Dropdown loadPrefabUI;
     private List<string> prefabNames = new List<string>();
     private List<GameObject> generatedPrefabs = new List<GameObject>();
-    Vector3 spawnPoint = new Vector3(4, 5, 0);
+    Vector3 defaultSpawnPoint = new Vector3(4, 5, 0);
+    public static Vector3 SpawnPoint = new Vector3(0,0,0);
+    public bool CustomSpawnsEnabled = true;
 
     public void AttemptToSavePrefab()
     {
@@ -154,8 +156,16 @@ public class PrefabCreatorAndLoader : MonoBehaviour
 
         if (loadedPrefab != null)
         {
-            generatedPrefabs.Add(Instantiate(loadedPrefab, spawnPoint, loadedPrefab.transform.rotation));
-            spawnPoint.y -= 2;
+            if(CustomSpawnsEnabled == true)
+            {
+                generatedPrefabs.Add(Instantiate(loadedPrefab, SpawnPoint, loadedPrefab.transform.rotation));
+            }
+            else
+            {
+                generatedPrefabs.Add(Instantiate(loadedPrefab, defaultSpawnPoint, loadedPrefab.transform.rotation));
+                defaultSpawnPoint.y -= 2;
+            }
+            
             Debug.Log("Prefab loaded and instantiated: " + prefabName);
         }
         else
@@ -189,8 +199,15 @@ public class PrefabCreatorAndLoader : MonoBehaviour
 
         if (loadedPrefab != null)
         {
-            generatedPrefabs.Add(Instantiate(loadedPrefab, spawnPoint, loadedPrefab.transform.rotation));
-            spawnPoint.y -= 2;
+            if (CustomSpawnsEnabled == true)
+            {
+                generatedPrefabs.Add(Instantiate(loadedPrefab, SpawnPoint, loadedPrefab.transform.rotation));
+            }
+            else
+            {
+                generatedPrefabs.Add(Instantiate(loadedPrefab, defaultSpawnPoint, loadedPrefab.transform.rotation));
+                defaultSpawnPoint.y -= 2;
+            }
             Debug.Log("Prefab loaded and instantiated: " + prefabName);
         }
         else
@@ -227,6 +244,6 @@ public class PrefabCreatorAndLoader : MonoBehaviour
             Destroy(generatedPrefabs[index]);
         }
         generatedPrefabs.Clear();
-        spawnPoint = new Vector3(4, 5, 0);
+        defaultSpawnPoint = new Vector3(4, 5, 0);
     }
 }
