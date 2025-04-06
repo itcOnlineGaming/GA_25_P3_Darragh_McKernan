@@ -4,15 +4,24 @@ using UnityEngine;
 
 public class DataTracker : MonoBehaviour
 {
-    // Start is called before the first frame update
+    public int totalChildCount;
+
     void Start()
     {
-        
+        totalChildCount = CountAllChildren(transform);
+        Debug.Log(gameObject.name + " has " + totalChildCount  + " children");
     }
 
-    // Update is called once per frame
-    void Update()
+    private int CountAllChildren(Transform parent)
     {
-        
+        int count = 0;
+
+        foreach (Transform child in parent)
+        {
+            count++;
+            count += CountAllChildren(child);
+        }
+
+        return count;
     }
 }
