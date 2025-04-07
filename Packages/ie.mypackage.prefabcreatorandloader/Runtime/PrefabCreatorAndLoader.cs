@@ -245,5 +245,34 @@ public class PrefabCreatorAndLoader : MonoBehaviour
         }
         generatedPrefabs.Clear();
         defaultSpawnPoint = new Vector3(4, 5, 0);
+
+#if UNITY_EDITOR
+        ClearSavedPrefabsFolder();
+#endif
+    }
+
+    public void ClearSavedPrefabsFolder()
+    {
+#if UNITY_EDITOR
+        if (Directory.Exists(savePath))
+        {
+            string[] prefabFiles = Directory.GetFiles(savePath, "*.prefab");
+
+            foreach (string filePath in prefabFiles)
+            {
+                File.Delete(filePath);
+            }
+
+            AssetDatabase.Refresh();
+            Debug.Log("All saved prefabs deleted from: " + savePath);
+            UpdatePrefabDropdown();
+        }
+        else
+        {
+            Debug.LogWarning("Save path does not exist: " + savePath);
+        }
+#else
+    Debug.LogWarning("ClearSavedPrefabsFolder() is only available in the Unity Editor.");
+#endif
     }
 }
