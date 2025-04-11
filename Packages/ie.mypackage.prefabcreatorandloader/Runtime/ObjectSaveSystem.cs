@@ -9,6 +9,7 @@ public static class ObjectSaveSystem
         SerializableObjectData data = Serialize(obj);
         string json = JsonConvert.SerializeObject(data);
         PlayerPrefs.SetString(key, json);
+        TrackSavedKey(key);
         PlayerPrefs.Save();
         Debug.Log($"Saved object '{obj.name}' as '{key}'");
     }
@@ -23,7 +24,7 @@ public static class ObjectSaveSystem
 
         string json = PlayerPrefs.GetString(key);
         SerializableObjectData data = JsonConvert.DeserializeObject<SerializableObjectData>(json);
-        return Deserialize(data, spawnPos, true); // true: this is the root object
+        return Deserialize(data, spawnPos, true); 
     }
 
     private static SerializableObjectData Serialize(GameObject obj)
@@ -86,5 +87,19 @@ public static class ObjectSaveSystem
         }
 
         return obj;
+    }
+
+    private static void TrackSavedKey(string key)
+    {
+        const string keyListKey = "SavedObjectKeys";
+        string existing = PlayerPrefs.GetString(keyListKey, "");
+        var keys = new HashSet<string>(existing.Split(new[] { ';' }, System.StringSplitOptions.RemoveEmptyEntries));
+
+        if (!keys.Contains(key))
+        {
+            keys.Add(key);
+            PlayerPrefs.SetString(keyListKey, string.Join(";", keys));
+            PlayerPrefs.Save();
+        }
     }
 }

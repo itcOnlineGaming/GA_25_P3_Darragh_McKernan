@@ -377,6 +377,17 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 2da0c512f12947e489f739169773d7ca, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+--- !u!114 &284323564 stripped
+MonoBehaviour:
+  m_CorrespondingSourceObject: {fileID: 4087002498912486263, guid: a0eacd3a773c3e0469a53976ba9d20d1, type: 3}
+  m_PrefabInstance: {fileID: 6123520777422964189}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 4e29b1a8efbd4b44bb3f3716e73f07ff, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
 --- !u!114 &494319773 stripped
 MonoBehaviour:
   m_CorrespondingSourceObject: {fileID: 1839760575992810373, guid: a0eacd3a773c3e0469a53976ba9d20d1, type: 3}
@@ -1000,9 +1011,13 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   objectToSave: {fileID: 1919228576}
-  nameInput: {fileID: 774006411}
+  nameInput: {fileID: 264916094}
+  nameToAssignInput: {fileID: 774006411}
+  loadInput: {fileID: 1428533967}
+  loadDropdown: {fileID: 1593771163}
   saveButton: {fileID: 494319773}
   loadButton: {fileID: 1051609973}
+  loadSelectedButton: {fileID: 284323564}
 --- !u!114 &1428533967 stripped
 MonoBehaviour:
   m_CorrespondingSourceObject: {fileID: 2633268171048365246, guid: a0eacd3a773c3e0469a53976ba9d20d1, type: 3}
