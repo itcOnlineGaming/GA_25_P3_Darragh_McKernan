@@ -349,6 +349,6 @@ public class PrefabCreatorAndLoader : MonoBehaviour
         string jsonData = JsonUtility.ToJson(t_analytics);
         Debug.Log(jsonData);
 
-        StartCoroutine(GameAnalytics.PostMethod(jsonData));
+        //StartCoroutine(GameAnalytics.PostMethod(jsonData));
     }
 }
