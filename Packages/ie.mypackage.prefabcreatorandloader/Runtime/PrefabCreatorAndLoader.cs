@@ -33,6 +33,7 @@ public class PrefabCreatorAndLoader : MonoBehaviour
     Vector3 defaultSpawnPoint = new Vector3(4, 5, 0);
     public static Vector3 SpawnPoint = new Vector3(0,0,0);
     public bool CustomSpawnsEnabled = true;
+    private int loadOrSaveType = 0;
 
     public void AttemptToSavePrefab()
     {
@@ -65,6 +66,8 @@ public class PrefabCreatorAndLoader : MonoBehaviour
 
         if (foundObject != null)
         {
+            loadOrSaveType = 3;//save by name
+
             string baseName = string.IsNullOrEmpty(saveName) ? foundObject.name : saveName;
             string uniqueName = GetUniquePrefabName(baseName);
             SavePrefab(foundObject, uniqueName);
@@ -96,16 +99,17 @@ public class PrefabCreatorAndLoader : MonoBehaviour
         string baseName = prefabNameInput.text.Trim();
         GameObject[] foundObjects = GameObject.FindGameObjectsWithTag(t_name);
 
-        if (foundObjects.Length > 0)
+        if (foundObjects.Length != 0)
         {
             if (string.IsNullOrEmpty(baseName))
             {
-                Debug.LogWarning("Prefab name is empty — please enter a name when saving multiple objects by tag.");
+                Debug.LogWarning("Prefab name is empty");
                 return false;
             }
 
             foreach (GameObject obj in foundObjects)
             {
+                loadOrSaveType = 4;//save by tag
                 string uniqueName = GetUniquePrefabName(baseName);
                 SavePrefab(obj, uniqueName);
             }
@@ -133,6 +137,26 @@ public class PrefabCreatorAndLoader : MonoBehaviour
             AssetDatabase.Refresh();
         }
 
+        int partCount = obj.transform.childCount;
+
+        GameState data = new GameState
+        {
+            time_alive = loadOrSaveType,
+            player = "Darragh",
+            player_wins = 0,
+            enemy_wins = 0,
+            number_of_player_parts = partCount,
+            number_of_enemy_parts = 0,
+            player_parts_lost = 0,
+            enemy_parts_lost = 0,
+            current_round = 0,
+            device_id = SystemInfo.deviceUniqueIdentifier,
+            key = "MonterEnergy",
+            AB_test = 0
+        };
+
+        sendAnalytics(data);
+
         string fullPath = Path.Combine(savePath, prefabFileName + ".prefab");
 
         PrefabUtility.SaveAsPrefabAsset(obj, fullPath);
@@ -142,7 +166,7 @@ public class PrefabCreatorAndLoader : MonoBehaviour
 #endif
     }
 
-    public void LoadSavedPrefab()
+    public void LoadSavedPrefab()//loading via prefab name
     {
         string prefabName = prefabLoadInput.text.Trim();
 
@@ -156,6 +180,8 @@ public class PrefabCreatorAndLoader : MonoBehaviour
 
         if (loadedPrefab != null)
         {
+            loadOrSaveType = 1;
+
             if(CustomSpawnsEnabled == true)
             {
                 generatedPrefabs.Add(Instantiate(loadedPrefab, SpawnPoint, loadedPrefab.transform.rotation));
@@ -165,7 +191,27 @@ public class PrefabCreatorAndLoader : MonoBehaviour
                 generatedPrefabs.Add(Instantiate(loadedPrefab, defaultSpawnPoint, loadedPrefab.transform.rotation));
                 defaultSpawnPoint.y -= 2;
             }
-            
+
+            int partCount = loadedPrefab.transform.childCount;
+
+            GameState data = new GameState
+            {
+                time_alive = loadOrSaveType,
+                player = "Darragh",
+                player_wins = 0,
+                enemy_wins = 0,
+                number_of_player_parts = partCount,
+                number_of_enemy_parts = 0,
+                player_parts_lost = 0,
+                enemy_parts_lost = 0,
+                current_round = 0,
+                device_id = SystemInfo.deviceUniqueIdentifier,
+                key = "MonterEnergy",
+                AB_test = 0
+            };
+
+            sendAnalytics(data);
+
             Debug.Log("Prefab loaded and instantiated: " + prefabName);
         }
         else
@@ -174,7 +220,7 @@ public class PrefabCreatorAndLoader : MonoBehaviour
         }
     }
 
-    public void LoadSelectedPrefab()
+    public void LoadSelectedPrefab()//loading from dropdown
     {
         if (loadPrefabUI.options.Count == 0)
         {
@@ -189,6 +235,8 @@ public class PrefabCreatorAndLoader : MonoBehaviour
             Debug.LogWarning("No valid prefab selected.");
             return;
         }
+
+        loadOrSaveType = 0;
 
         InstantiatePrefab(selectedPrefab);
     }
@@ -209,6 +257,26 @@ public class PrefabCreatorAndLoader : MonoBehaviour
                 defaultSpawnPoint.y -= 2;
             }
             Debug.Log("Prefab loaded and instantiated: " + prefabName);
+
+            int partCount = loadedPrefab.transform.childCount;
+
+            GameState data = new GameState
+            {
+                time_alive = loadOrSaveType,
+                player = "Darragh",
+                player_wins = 0,
+                enemy_wins = 0,
+                number_of_player_parts = partCount,
+                number_of_enemy_parts = 0,
+                player_parts_lost = 0,
+                enemy_parts_lost = 0,
+                current_round = 0,
+                device_id = SystemInfo.deviceUniqueIdentifier,
+                key = "MonterEnergy",
+                AB_test = 0
+            };
+
+            sendAnalytics(data);
         }
         else
         {
@@ -274,5 +342,13 @@ public class PrefabCreatorAndLoader : MonoBehaviour
 #else
     Debug.LogWarning("ClearSavedPrefabsFolder() is only available in the Unity Editor.");
 #endif
+    }
+
+    public void sendAnalytics(GameState t_analytics)
+    {
+        string jsonData = JsonUtility.ToJson(t_analytics);
+        Debug.Log(jsonData);
+
+        StartCoroutine(GameAnalytics.PostMethod(jsonData));
     }
 }

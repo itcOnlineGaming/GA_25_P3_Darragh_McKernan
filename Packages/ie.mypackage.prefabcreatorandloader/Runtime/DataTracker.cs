@@ -1,6 +1,8 @@
 using System.Collections;
 using System.Collections.Generic;
+using System.Net;
 using UnityEngine;
+using UnityEngine.Networking;
 
 public class DataTracker : MonoBehaviour
 {
@@ -9,7 +11,6 @@ public class DataTracker : MonoBehaviour
     void Start()
     {
         totalChildCount = CountAllChildren(transform);
-        //Debug.Log(gameObject.name + " has " + totalChildCount  + " children");
     }
 
     private int CountAllChildren(Transform parent)

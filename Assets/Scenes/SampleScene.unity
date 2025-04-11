@@ -996,6 +996,7 @@ GameObject:
   m_Component:
   - component: {fileID: 1281903482}
   - component: {fileID: 1281903483}
+  - component: {fileID: 1281903484}
   m_Layer: 0
   m_Name: GameManager
   m_TagString: Untagged
@@ -1037,6 +1038,18 @@ MonoBehaviour:
   prefabLoadInput: {fileID: 1428533967}
   loadPrefabUI: {fileID: 1593771163}
   CustomSpawnsEnabled: 0
+--- !u!114 &1281903484
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1281903480}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 445f4655fa1204c42b0bfb814ca7c2f6, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
 --- !u!114 &1428533967 stripped
 MonoBehaviour:
   m_CorrespondingSourceObject: {fileID: 2633268171048365246, guid: a0eacd3a773c3e0469a53976ba9d20d1, type: 3}
