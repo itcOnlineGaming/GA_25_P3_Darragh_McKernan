@@ -28,7 +28,8 @@
 ## Loading a saved object
 ### You can also optionally add in a button to load in one of the previously saved objects, these will be stored as a list so you can easily access all of them.
 ### A dropdown menu can be used to display all of the saved objects in an easy to access menu so the user can see all of the objects and pick whatever one they want.
-![image](![image](https://github.com/user-attachments/assets/48929ee3-d91c-4e03-9b02-e2d40e9f8215))
+![image](https://github.com/user-attachments/assets/961ccd78-91c4-427f-bb19-30c592a93dd4)
+
 ### In the demo you can see that an object can be saved either by specifying the name of the object or the tag that is on the object.
 ### You can also provide an input box so that the user can load an object by name if they want.
 ### You can save objects you want into the folder using the functions provided and calling them using buttons or using your own scripts.
