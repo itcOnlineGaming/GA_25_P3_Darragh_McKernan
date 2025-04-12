@@ -9,28 +9,26 @@
 
 ## Using the Prefab Creator and Loader
 ### A package that can be used to save a collection of gameobjects as 1 singular gameobject.
-### The saved gameobjects are stored in the package and can be loaded at will when they are needed.
-### This is especially useful when a player is able to build something as it can be saved as stored so they can reuse the built object later on.
+### The saved gameobjects are stored in playerprefs and can be loaded as needed.
+### This is especially useful when a player is able to build something as it can be saved and stored so they can reuse the built object later on.
 
+![image](https://github.com/user-attachments/assets/961ccd78-91c4-427f-bb19-30c592a93dd4)
 # Setting up the package
 ## Saving an Object
-### You can only save a prefab while in the editor so this is only for developer use. After the objects are saved the user can load them even in a build.
-### Attach the package script from the package to a gameoject in your scene (preferably a GameManager).
-### Attach the gameobject containing the package script to a button so that the user can save the gameobject that you want.
-### A UI element will also be included in the package that if the player types into it they can give their saved object a name.
-### Make sure that each button you add calls on the functions in thescript to save and load. You MUST provide inout boxes for the users to be able to save objects.
-### You MUST have a folder structure like this.
-![image](https://github.com/user-attachments/assets/d15d471d-2d65-4c77-aa5d-6404f599dc30)
-### Assets/Resources/SavedPrefabs
-### All prefabs will be saved and loaded in the folder SavedPrefabs.
-### You can add in your own prefabs here by dragging them in or you can run your game and call the save button to use your own game to genereate prefabs to use. This is especially useful if you have a system to build prefabs such as cars.
+### You can save an object either by name or tag using the function SaveObjectByInput() in the script ObjectSaveUI.cs
+### You provide an inputfield so that you can use that to pick what you want to save by tag or name.
+### If you provide an additional inputfield you can use that to set the name of the object that it will be saved as.
 
 ## Loading a saved object
-### You can also optionally add in a button to load in one of the previously saved objects, these will be stored as a list so you can easily access all of them.
-### A dropdown menu can be used to display all of the saved objects in an easy to access menu so the user can see all of the objects and pick whatever one they want.
-![image](https://github.com/user-attachments/assets/961ccd78-91c4-427f-bb19-30c592a93dd4)
+### You MUST have a folder structure like this.
+![image](https://github.com/user-attachments/assets/5f3d683c-7986-4f34-b522-1faa4c1c2960)
+### You can also optionally add in a button to load in one of the previously saved objects.
+### If you add in a button you can add in another inputfield for the user to load an object by name.
+### Additionally a dropdown menu can be used to display all of the saved objects in an easy to access menu so the user can see all of the objects and pick whatever one they want.
+### A button will still be required to load objects that were chosen from the dropdown.
 
+## The Demo
 ### In the demo you can see that an object can be saved either by specifying the name of the object or the tag that is on the object.
+### You can also choose the name to save the object as but if you dont it will simply save as the name of the GameObject
 ### You can also provide an input box so that the user can load an object by name if they want.
-### You can save objects you want into the folder using the functions provided and calling them using buttons or using your own scripts.
-### If you have any other prefabs you want the player to be able to use you can simply drop prefabs into the Assets/Resources/SavedPrefabs folderand the script will automatically pick them up.
+### You can save objects you want using the functions provided and calling them using buttons or using your own scripts.
